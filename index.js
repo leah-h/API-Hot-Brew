@@ -25,32 +25,52 @@ app.get('/', function (req, res) {
   res.send('Hello World 123...')
 })
 
-const convertCollectionSnapshotUsersToMap = (collections) => {
-  const transformedCollection = collections.docs.map(doc => {
-    const { displayName, email } = doc.data();
-
-    return {
-      routeName: encodeURI(email.toLowerCase()),
-      id: doc.id,
-      displayName,
-      email
-    }
-  })
-}
-
-app.get('/api/users', async function (req, res) {
+app.get('/api/users', async (req, res) => {
  
   let usersRef = db.collection('users');
   let users = [];
   let allUsers = await usersRef.get()
   if (allUsers) {
     allUsers.forEach((doc) => {
-      users.push(doc.id, '=>', doc.data());
+      users = {...users, [doc.id]: {...doc.data()} }
     })
   }
   res.send(users);
   
+})
+  
+app.get('/api/products', async (req, res) => {
+  let productsRef = db.collection('products');
+  let products = [];
+  let allProducts = await productsRef.get()
+  if (allProducts) {
+    allProducts.forEach((doc) => {
+      products = {...products, [doc.id]: {...doc.data() } }
+   
+    })
+  }
+  res.send(products);
+})
+
+app.get('/api/products/:id', async (req, res) => {
+  let productRef = db.collection('products').doc(uid);
+  let getDoc = productRef.get()
+  .then(doc => {
+    if (!doc.exists) {
+      console.log('No such document!');
+    } else {
+      console.log('Document data:', doc.data());
+    }
   })
+  .catch(err => {
+    console.log('Error getting document', err);
+  });
+
+})
+
+app.get('./api/products/:category', async (req, res) => {
+
+})
  
 const port = 3001 ;
 app.listen(port, () => console.log(`Listening on port ${port}`));
