@@ -13,6 +13,7 @@ let db = admin.firestore();
 
 
 const express = require('express')
+const bodyParser = require('body-parser')
 require('dotenv').config()
 const firebase = require('firebase');
 const cors = require('cors')
@@ -37,23 +38,18 @@ const convertCollectionSnapshotUsersToMap = (collections) => {
   })
 }
 
-app.get('api/users', function (req, res) {
-  let users = [];
+app.get('/api/users', async function (req, res) {
+ 
   let usersRef = db.collection('users');
-  let allUsers = usersRef.get()
-    .then(snapshot => { 
-      snapshot.forEach(doc => {
-      console.log(doc.id, '=>', doc.data());
-      });
-
-      res.send(allUsers);
-      console.log(allUsers);
-      })
+  let users = [];
+  let allUsers = await usersRef.get()
+  if (allUsers) {
+    allUsers.forEach((doc) => {
+      users.push(doc.id, '=>', doc.data());
+    })
+  }
+  res.send(users);
   
-    .catch(err => {
-      console.log('Error getting documents', err);
-    });
-
   })
  
 const port = 3001 ;
