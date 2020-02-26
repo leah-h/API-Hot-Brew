@@ -12,21 +12,6 @@ import 'firebase/firebase-auth'
   appId: "1:1090628766284:web:32d3dff705b9a5ff80c2e9",
   measurementId: "G-4VXFBV4GY7"
   };
-
-// Get users data from firestore
-export const convertCollectionSnapshotUsersToMap = (collections) => {
-  const transformedCollection = collections.docs.map(doc => {
-    const { displayName, email } = doc.data();
-
-    return {
-      routeName: encodeURI(email.toLowerCase()),
-      id: doc.id,
-      displayName,
-      email
-    }
-  })
-  console.log(transformedCollection)
-}
  
 firebase.initializeApp(firebaseConfig);
   
