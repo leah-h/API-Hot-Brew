@@ -53,24 +53,26 @@ app.get('/api/products', async (req, res) => {
 })
 
 app.get('/api/products/:id', async (req, res) => {
-  let productRef = db.collection('products').doc(uid);
-  let getDoc = productRef.get()
-  .then(doc => {
-    if (!doc.exists) {
-      console.log('No such document!');
-    } else {
-      console.log('Document data:', doc.data());
-    }
-  })
-  .catch(err => {
-    console.log('Error getting document', err);
-  });
 
+  let id = req.params.id
+  console.log(id);
+
+  let productsRef = db.collection('products');
+  let product = [];
+  let queryProduct = await productsRef.doc(id).get()
+    .then(snapShot => {
+      res.send(snapShot.data());    
+    })
+
+  .catch(err => {
+    console.log('Error getting documents', err);
+  });
+  
 })
 
-app.get('./api/products/:category', async (req, res) => {
+app.get('/api/products/:category', async (req, res) => {
 
 })
  
-const port = 3001 ;
+const port = process.env.PORT || 3001 ;
 app.listen(port, () => console.log(`Listening on port ${port}`));
