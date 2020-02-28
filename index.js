@@ -45,8 +45,8 @@ app.get('/api/users/:id', async (req, res) => {
 
   let usersRef = db.collection('users');
   let queryUser = await usersRef.doc(id).get()
-    .then(snapShot => {
-      res.send(snapShot.data());    
+    .then(snapshot => {
+      res.send(snapshot.data());    
     })
 
   .catch(err => {
@@ -70,12 +70,10 @@ app.get('/api/products', async (req, res) => {
 app.get('/api/products/:id', async (req, res) => {
 
   let id = req.params.id
-  console.log(id);
-
-  let productsRef = db.collection('products');
-  let queryProduct = await productsRef.doc(id).get()
-    .then(snapShot => {
-      res.send(snapShot.data());    
+ 
+  let queryProduct = await db.collection('products').doc(id).get()
+    .then(snapshot => {
+      res.send(snapshot.data());    
     })
 
   .catch(err => {
@@ -84,7 +82,36 @@ app.get('/api/products/:id', async (req, res) => {
   
 })
 
-app.get('/api/products/:category', async (req, res) => {
+app.get('/api/products/category/:category', async (req, res) => {
+
+  let category = req.params.category;
+  
+  let itemsByCategory = [];
+  let queryProduct = await db.collection('products').where('category', '==', category).get()
+    .then(snapshot => {
+      snapshot.forEach(doc => {
+        itemsByCategory.push(doc.data())
+      })
+     res.send(itemsByCategory);
+    })
+
+  .catch(err => {
+    console.log('Error getting documents', err);
+  });
+
+
+  app.delete('/api/products/delete/:id', async (req, res) => {
+    let id = req.body.params.id;
+    console.log(id);
+    let productToDelete = await db.collection('products').doc(id).delete()
+       .then(snapshot => {
+         res.send('Deleted item:', snapshot.data());    
+    })
+
+  .catch(err => {
+    console.log('Error deleting document', err);
+  });
+  })
 
 })
  
