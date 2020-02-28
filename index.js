@@ -38,6 +38,21 @@ app.get('/api/users', async (req, res) => {
   res.send(users);
   
 })
+
+app.get('/api/users/:id', async (req, res) => {
+  let id = req.params.id
+  console.log(id);
+
+  let usersRef = db.collection('users');
+  let queryUser = await usersRef.doc(id).get()
+    .then(snapShot => {
+      res.send(snapShot.data());    
+    })
+
+  .catch(err => {
+    console.log('Error getting documents', err);
+  });
+})
   
 app.get('/api/products', async (req, res) => {
   let productsRef = db.collection('products');
@@ -58,7 +73,6 @@ app.get('/api/products/:id', async (req, res) => {
   console.log(id);
 
   let productsRef = db.collection('products');
-  let product = [];
   let queryProduct = await productsRef.doc(id).get()
     .then(snapShot => {
       res.send(snapShot.data());    
