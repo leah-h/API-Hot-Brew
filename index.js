@@ -87,33 +87,35 @@ app.get('/api/products/category/:category', async (req, res) => {
   let category = req.params.category;
   
   let itemsByCategory = [];
-  let queryProduct = await db.collection('products').where('category', '==', category).get()
+  
+  await db.collection('products').where('category', '==', category).get()
     .then(snapshot => {
       snapshot.forEach(doc => {
         itemsByCategory.push(doc.data())
       })
-     res.send(itemsByCategory);
+      res.send(itemsByCategory);
     })
 
-  .catch(err => {
-    console.log('Error getting documents', err);
-  });
-
-
-  app.delete('/api/products/delete/:id', async (req, res) => {
-    let id = req.body.params.id;
-    console.log(id);
-    let productToDelete = await db.collection('products').doc(id).delete()
-       .then(snapshot => {
-         res.send('Deleted item:', snapshot.data());    
-    })
-
-  .catch(err => {
-    console.log('Error deleting document', err);
-  });
-  })
+    .catch(err => {
+      console.log('Error getting documents', err);
+    });
 
 })
+
+  app.delete('/api/products/delete/:id', async (req, res) => {
+    
+    let id = req.params.id;
+    
+    await db.collection('products').doc(id).delete()
+      .then( () => {
+      res.status(200).send('Item sucessfully deleted.');
+  }) 
+      .catch(err => {
+    console.log('Error deleting document', err);
+      });
+    
+  })
+
  
 const port = process.env.PORT || 3001 ;
 app.listen(port, () => console.log(`Listening on port ${port}`));
