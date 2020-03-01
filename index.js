@@ -44,8 +44,7 @@ app.get('/api/users', async (req, res) => {
 
 app.get('/api/users/:id', async (req, res) => {
   let id = req.params.id
-  console.log(id);
-
+ 
   let usersRef = db.collection('users');
   let queryUser = await usersRef.doc(id).get()
     .then(snapshot => {
@@ -70,21 +69,7 @@ app.get('/api/products', async (req, res) => {
   res.send(products);
 })
 
-app.get('/api/products/:id', async (req, res) => {
-
-  let id = req.params.id
- 
-  let queryProduct = await db.collection('products').doc(id).get()
-    .then(snapshot => {
-      res.send(snapshot.data());    
-    })
-
-  .catch(err => {
-    console.log('Error getting documents', err);
-  });
-  
-})
-
+// Get item by category
 app.get('/api/products/category/:category', async (req, res) => {
 
   let category = req.params.category;
@@ -105,6 +90,25 @@ app.get('/api/products/category/:category', async (req, res) => {
 
 })
 
+// Get an item from db
+app.get('/api/products/:id', async (req, res) => {
+
+  let id = req.params.id
+ 
+  let queryProduct = await db.collection('products').doc(id).get()
+    .then(snapshot => {
+      res.send(snapshot.data());    
+    })
+
+  .catch(err => {
+    console.log('Error getting documents', err);
+  });
+  
+})
+
+
+
+// Delete an item from products
   app.delete('/api/products/delete/:id', async (req, res) => {
     
     let id = req.params.id;
@@ -143,7 +147,36 @@ app.post('/api/products/new', async (req, res) => {
       .catch(error => {
         console.log(error);
       })
-  })  
+})  
+  
+// Update an item by id
+// handle item.key must not be empty, handle on FE if key is not empty, 
+// send previous values as update values
+app.put('/api/products/update/:id', async (req, res) => {
+
+  let id = req.params.id;
+  let data = {
+    'category': req.body.category,
+    'description': req.body.description,
+    'flavorProfile': req.body.flavorProfile,
+    'imageUrl': req.body.imageUrl,
+    'name': req.body.name,
+    'type': req.body.type,
+    'price': req.body.price,
+    'product_id': req.body.product_id,
+    'size': req.body.size
+    }
+     
+    await db.collection('products').doc(id).update(data)
+      .then(() => {
+        res.status(200).send('Item sucessfully updated');
+      })
+      .catch(error => {
+        console.log(error);
+      })
+})  
+  
+
 
 
 
