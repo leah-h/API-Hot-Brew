@@ -106,8 +106,6 @@ app.get('/api/products/:id', async (req, res) => {
   
 })
 
-
-
 // Delete an item from products
   app.delete('/api/products/delete/:id', async (req, res) => {
     
