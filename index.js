@@ -122,34 +122,28 @@ app.get('/api/products/category/:category', async (req, res) => {
 
 // Add new item to products  
 app.post('/api/products/new', async (req, res) => {
-  // await db.collection('products').doc().set({
-  //   category: 'test category',
-  //   description: 'test description'
-  // })
-  console.log('hello')
-  console.log(req)
-  let data = {
-  'category': req.body.category, 
-  'description': req.body.description,
-  'flavorProfile': req.body.flavorProfile,
-  'imageUrl': req.body.imageUrl,
-  'name': req.body.name,
-  'price': req.body.price,
-  'product_id': req.body.product_id,
-  'size': req.body.size,
-  'type': req.body.type
-}
-console.log(data)
+
+    let data = {
+    
+      'category': req.body.category,
+      'description': req.body.description,
+      'flavorProfile': req.body.flavorProfile,
+      'imageUrl': req.body.imageUrl,
+      'name': req.body.name,
+      'price': req.body.price,
+      'product_id': req.body.product_id,
+      'size': req.body.size,
+      'type': req.body.type
+    }
      
-    // await db.collection('products').doc().set(data)
-      // .then((res) => {
-      //   // res.status(200).send('item added to db')
-      //    res.end(JSON.stringify(res));
-      // })
-      // .catch(error => {
-      //   res.status(404).send('item NOT added to db');
-      // })
-  })
+    await db.collection('products').doc().set(data)
+      .then(() => {
+        res.status(200).send('Item sucessfully added to db.');
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  })  
 
 
 
