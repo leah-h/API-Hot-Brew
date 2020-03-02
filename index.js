@@ -189,6 +189,22 @@ app.get('/api/reviews', async (req, res) => {
   res.send(reviews);
 })
 
+// get reviews by product
+app.get('/api/reviews/:productId', async (req, res) => {
+  
+  let productId = req.params.productId;
+  let reviewsRefByItem = db.collection('reviews').where('productId', '==', productId);
+  let reviewsByItem = [];
+  let allReviewsByItem = await reviewsRefByItem.get()
+  if (allReviewsByItem) {
+    allReviewsByItem.forEach((doc) => {
+      reviewsByItem = {...reviewsByItem, [doc.id]: {...doc.data() } }
+   
+    })
+  }
+  res.send(reviewsByItem);
+})
+
 // Add a review to an item
 app.post('/api/reviews/new', async (req, res) => {
 
