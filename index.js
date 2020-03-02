@@ -188,6 +188,24 @@ app.get('/api/reviews', async (req, res) => {
   }
   res.send(reviews);
 })
+
+// Add a review to an item
+app.post('/api/reviews/new', async (req, res) => {
+
+    let data = {
+      'userId': req.body.userId,
+      'productId': req.body.productId,
+      'review': req.body.review
+    }
+     
+    await db.collection('reviews').doc().set(data)
+      .then(() => {
+        res.status(200).send('Item review sucessfully submitted to db.');
+      })
+      .catch(error => {
+        console.log(error);
+      })
+}) 
   
 
 
