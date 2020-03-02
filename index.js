@@ -173,6 +173,21 @@ app.put('/api/products/update/:id', async (req, res) => {
         console.log(error);
       })
 })  
+
+
+// Get all reviews
+app.get('/api/reviews', async (req, res) => {
+  let reviewsRef = db.collection('reviews');
+  let reviews = [];
+  let allReviews = await reviewsRef.get()
+  if (allReviews) {
+    allReviews.forEach((doc) => {
+      reviews = {...reviews, [doc.id]: {...doc.data() } }
+   
+    })
+  }
+  res.send(reviews);
+})
   
 
 
