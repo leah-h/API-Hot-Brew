@@ -66,7 +66,7 @@ app.get('/api/products', async (req, res) => {
    
     })
   }
-  res.send(products);
+  res.json(products);
 })
 
 // Get item by category
