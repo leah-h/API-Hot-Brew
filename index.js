@@ -123,26 +123,26 @@ app.get('/api/products/:id', async (req, res) => {
 
   let queryProduct = await productsRef.get()
     .then(snapShot => {
-      res.send(snapShot.data());  
-     // console.log(snapShot.data()); 
+      res.send(snapShot.data());
+      // console.log(snapShot.data()); 
  
-  let queryProduct = await db.collection('products').doc(id).get()
-    .then(snapshot => {
-      res.send(snapshot.data());    
+      let queryProduct = await db.collection('products').doc(id).get()
+        .then(snapshot => {
+          res.send(snapshot.data());
+        })
+
+        .catch(err => {
+          console.log('Error getting documents', err);
+        });
+  
     })
 
-  .catch(err => {
-    console.log('Error getting documents', err);
-  });
-  
-})
 
+  // Add new item to products table
+  app.post('/api/products/new', async (req, res) => {
 
-// Add new item to products table
-app.post('/api/products/new', async (req, res) => {
-
-  let data = {
-      category: req.body.category, 
+    let data = {
+      category: req.body.category,
       description: req.body.description,
       flavorProfile: req.body.flavorProfile,
       imageUrl: req.body.imageUrl,
@@ -162,45 +162,45 @@ app.post('/api/products/new', async (req, res) => {
       })
   })
 
-//GET products by category
-app.get('/api/products/category/:category', async (req, res) => {
+  //GET products by category
+  app.get('/api/products/category/:category', async (req, res) => {
 
-  let category = req.params.category;
+    let category = req.params.category;
   
-  let itemsByCategory = [];
+    let itemsByCategory = [];
   
-  await db.collection('products').where('category', '==', category).get()
-    .then(snapshot => {
-      snapshot.forEach(doc => {
-        itemsByCategory.push(doc.data())
+    await db.collection('products').where('category', '==', category).get()
+      .then(snapshot => {
+        snapshot.forEach(doc => {
+          itemsByCategory.push(doc.data())
+        })
+        res.send(itemsByCategory);
       })
-      res.send(itemsByCategory);
-    })
 
-    .catch(err => {
-      console.log('Error getting documents', err);
-    });
+      .catch(err => {
+        console.log('Error getting documents', err);
+      });
 
-})
+  })
 
-//DELETE product by id
+  //DELETE product by id
   app.delete('/api/products/delete/:id', async (req, res) => {
     
     let id = req.params.id;
     
     await db.collection('products').doc(id).delete()
-      .then( () => {
+      .then(() => {
       
-      res.status(200).send('Item sucessfully deleted.');
-  }) 
+        res.status(200).send('Item sucessfully deleted.');
+      })
       .catch(err => {
-    console.log('Error deleting document', err);
+        console.log('Error deleting document', err);
       });
     
   })
 
-// Add new item to products  
-app.post('/api/products/new', async (req, res) => {
+  // Add new item to products  
+  app.post('/api/products/new', async (req, res) => {
 
     let data = {
     
@@ -222,24 +222,24 @@ app.post('/api/products/new', async (req, res) => {
       .catch(error => {
         console.log(error);
       })
-})  
+  })
   
-// Update an item by id
-// handle item.key must not be empty, handle on FE if key is not empty, 
-// send previous values as update values
-app.put('/api/products/update/:id', async (req, res) => {
+  // Update an item by id
+  // handle item.key must not be empty, handle on FE if key is not empty, 
+  // send previous values as update values
+  app.put('/api/products/update/:id', async (req, res) => {
 
-  let id = req.params.id;
-  let data = {
-    'category': req.body.category,
-    'description': req.body.description,
-    'flavorProfile': req.body.flavorProfile,
-    'imageUrl': req.body.imageUrl,
-    'productName': req.body.productName,
-    'type': req.body.type,
-    'price': req.body.price,
-    'product_id': req.body.product_id,
-    'size': req.body.size
+    let id = req.params.id;
+    let data = {
+      'category': req.body.category,
+      'description': req.body.description,
+      'flavorProfile': req.body.flavorProfile,
+      'imageUrl': req.body.imageUrl,
+      'productName': req.body.productName,
+      'type': req.body.type,
+      'price': req.body.price,
+      'product_id': req.body.product_id,
+      'size': req.body.size
     }
      
     await db.collection('products').doc(id).update(data)
@@ -249,45 +249,45 @@ app.put('/api/products/update/:id', async (req, res) => {
       .catch(error => {
         console.log(error);
       })
-})  
+  })
 
-// Get all reviews
-app.get('/api/reviews', async (req, res) => {
-  let reviewsRef = db.collection('reviews');
-  let reviews = [];
-  let allReviews = await reviewsRef.get()
-  if (allReviews) {
-    allReviews.forEach((doc) => {
-      reviews.push({
-       // productId: doc.id,
-        ...doc.data()
+  // Get all reviews
+  app.get('/api/reviews', async (req, res) => {
+    let reviewsRef = db.collection('reviews');
+    let reviews = [];
+    let allReviews = await reviewsRef.get()
+    if (allReviews) {
+      allReviews.forEach((doc) => {
+        reviews.push({
+          // productId: doc.id,
+          ...doc.data()
         });
   
-    }) 
-  }
-  res.send(reviews);
-})
+      })
+    }
+    res.send(reviews);
+  })
 
-// get reviews by product
-app.get('/api/reviews/:productId', async (req, res) => {
+  // get reviews by product
+  app.get('/api/reviews/:productId', async (req, res) => {
   
-  let productId = req.params.productId;
-  let reviewsRefByItem = db.collection('reviews').where('productId', '==', productId);
-  let reviewsByItem = [];
-  let allReviewsByItem = await reviewsRefByItem.get()
-  if (allReviewsByItem) {
-    allReviewsByItem.forEach((doc) => {
-      reviewsByItem.push({
-        productId: doc.id,
-        ...doc.data()
+    let productId = req.params.productId;
+    let reviewsRefByItem = db.collection('reviews').where('productId', '==', productId);
+    let reviewsByItem = [];
+    let allReviewsByItem = await reviewsRefByItem.get()
+    if (allReviewsByItem) {
+      allReviewsByItem.forEach((doc) => {
+        reviewsByItem.push({
+          productId: doc.id,
+          ...doc.data()
         });
-    })
-  }
-  res.send(reviewsByItem);
-})
+      })
+    }
+    res.send(reviewsByItem);
+  })
 
-// Add a review to an item
-app.post('/api/reviews/new', async (req, res) => {
+  // Add a review to an item
+  app.post('/api/reviews/new', async (req, res) => {
 
     let data = {
       'userId': req.body.userId,
@@ -302,11 +302,12 @@ app.post('/api/reviews/new', async (req, res) => {
       .catch(error => {
         console.log(error);
       })
-}) 
+  })
+})  
 
 
 
 
  
-const port = process.env.PORT || 3001 ;
-app.listen(port, () => console.log(`Listening on port ${port}`));
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log(`Listening on port ${3000}`));
