@@ -55,6 +55,28 @@ app.get('/api/users/:id', async (req, res) => {
     console.log('Error getting documents', err);
   });
 })
+
+// Update user
+app.put('/api/users/update/:id', async (req, res) => {
+
+  let id = req.params.id;
+  let data = {
+    'email': req.body.email,
+    'displayName': req.body.displayName,
+    'address': req.body.address,
+    'city': req.body.city,
+    'zip': req.body.zip
+  }
+  console.log(data);
+     
+    await db.collection('users').doc(id).update(data)
+      .then(() => {
+        res.status(200).send('User info sucessfully updated');
+      })
+      .catch(error => {
+        console.log(error);
+      })
+}) 
   
 app.get('/api/products', async (req, res) => {
   let productsRef = db.collection('products');
@@ -62,11 +84,14 @@ app.get('/api/products', async (req, res) => {
   let allProducts = await productsRef.get()
   if (allProducts) {
     allProducts.forEach((doc) => {
-      products = {...products, [doc.id]: {...doc.data() } }
-   
+      products.push({
+        productId: doc.id,
+        ...doc.data()
+        });
     })
   }
-  res.json(products);
+  res.send(products);
+  //console.log(products);
 })
 
 // Get item by category
@@ -131,7 +156,7 @@ app.post('/api/products/new', async (req, res) => {
       'description': req.body.description,
       'flavorProfile': req.body.flavorProfile,
       'imageUrl': req.body.imageUrl,
-      'name': req.body.name,
+      'productName': req.body.productName,
       'price': req.body.price,
       'product_id': req.body.product_id,
       'size': req.body.size,
@@ -158,7 +183,7 @@ app.put('/api/products/update/:id', async (req, res) => {
     'description': req.body.description,
     'flavorProfile': req.body.flavorProfile,
     'imageUrl': req.body.imageUrl,
-    'name': req.body.name,
+    'productName': req.body.productName,
     'type': req.body.type,
     'price': req.body.price,
     'product_id': req.body.product_id,
