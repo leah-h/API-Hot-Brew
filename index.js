@@ -292,11 +292,40 @@ app.put('/api/reviews/update/:id', async (req, res) => {
       })
   })
 
-
 // Get all orders
 app.get('/api/orders', async (req, res) => {
+  let ordersRef = db.collection('orders');
+    let orders = [];
+    let allOrders = await ordersRef.get()
+    if (allOrders) {
+      allOrders.forEach((doc) => {
+        orders.push({
+          ...doc.data()
+        });
+  
+      })
+    }
+    res.send(orders); 
+})
+
+// Get orders by user
+app.get('/api/orders/userId', async (req, res) => {
+  let userId = req.params.userId;
+  let ordersRefByUser = db.collection('orders').where('userId', '==', userId);
+  let ordersByUser = [];
+  let allOrdersByUser = await ordersRefByUser.get()
+    if (allOrdersByUser) {
+      allOrdersByUser.forEach((doc) => {
+        ordersByUser.push({
+          productId: doc.id,
+          ...doc.data()
+        });
+      })
+    }
+    res.send(ordersByUser);
   
 })
+
 
 
 
