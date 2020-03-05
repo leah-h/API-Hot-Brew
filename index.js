@@ -2,13 +2,13 @@
 // Initialize on cloud functions
 const admin = require('firebase-admin');
 
-let serviceAccount = './.env';
+// let serviceAccount = './.env';
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-});
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount)
+// });
 
-// admin.initializeApp();
+admin.initializeApp();
 
 let db = admin.firestore();
 
