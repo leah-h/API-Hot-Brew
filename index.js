@@ -124,13 +124,7 @@ app.get('/api/products/:id', async (req, res) => {
   let queryProduct = await productsRef.get()
     .then(snapShot => {
       res.send(snapShot.data());
-      // console.log(snapShot.data()); 
- 
-      let queryProduct = await db.collection('products').doc(id).get()
-        .then(snapshot => {
-          res.send(snapshot.data());
-        })
-
+    })
         .catch(err => {
           console.log('Error getting documents', err);
         });
@@ -197,31 +191,6 @@ app.get('/api/products/:id', async (req, res) => {
         console.log('Error deleting document', err);
       });
     
-  })
-
-  // Add new item to products  
-  app.post('/api/products/new', async (req, res) => {
-
-    let data = {
-    
-      'category': req.body.category,
-      'description': req.body.description,
-      'flavorProfile': req.body.flavorProfile,
-      'imageUrl': req.body.imageUrl,
-      'productName': req.body.productName,
-      'price': req.body.price,
-      'product_id': req.body.product_id,
-      'size': req.body.size,
-      'type': req.body.type
-    }
-     
-    await db.collection('products').doc().set(data)
-      .then(() => {
-        res.status(200).send('Item sucessfully added to db.');
-      })
-      .catch(error => {
-        console.log(error);
-      })
   })
   
   // Update an item by id
@@ -302,12 +271,64 @@ app.get('/api/products/:id', async (req, res) => {
       .catch(error => {
         console.log(error);
       })
+  })  
+
+// Update a review
+app.put('/api/reviews/update/:id', async (req, res) => {
+
+    let id = req.params.id;
+     let data = {
+      'userId': req.body.userId,
+      'productId': req.body.productId,
+      'review': req.body.review
+    }
+     
+    await db.collection('reviews').doc(id).update(data)
+      .then(() => {
+        res.status(200).send('Item sucessfully updated');
+      })
+      .catch(error => {
+        console.log(error);
+      })
   })
-})  
+
+// Get all orders
+app.get('/api/orders', async (req, res) => {
+  let ordersRef = db.collection('orders');
+    let orders = [];
+    let allOrders = await ordersRef.get()
+    if (allOrders) {
+      allOrders.forEach((doc) => {
+        orders.push({
+          ...doc.data()
+        });
+  
+      })
+    }
+    res.send(orders); 
+})
+
+// Get orders by user
+app.get('/api/orders/userId', async (req, res) => {
+  let userId = req.params.userId;
+  let ordersRefByUser = db.collection('orders').where('userId', '==', userId);
+  let ordersByUser = [];
+  let allOrdersByUser = await ordersRefByUser.get()
+    if (allOrdersByUser) {
+      allOrdersByUser.forEach((doc) => {
+        ordersByUser.push({
+          productId: doc.id,
+          ...doc.data()
+        });
+      })
+    }
+    res.send(ordersByUser);
+  
+})
 
 
 
 
  
-const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Listening on port ${3000}`));
+const port = process.env.PORT || 3001;
+app.listen(port, () => console.log(`Listening on port ${3001}`));
