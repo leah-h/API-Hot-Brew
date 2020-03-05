@@ -3,11 +3,11 @@
 
 const admin = require('firebase-admin');
 
-// let serviceAccount = './.env';
+let serviceAccount = './.env';
 
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount)
-// });
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
 
 let db = admin.firestore();
 
