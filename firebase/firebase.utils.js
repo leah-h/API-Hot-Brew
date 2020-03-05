@@ -2,7 +2,7 @@ import firebase from 'firebase/firebase-app'
 import 'firebase/firebase-firestore'
 import 'firebase/firebase-auth'
  
-  export const firebaseConfig = {
+  const firebaseConfig = {
   apiKey: "AIzaSyDI53lx0xAPoCOsRSjO2Q_CRGk2Jm0kXiM",
   authDomain: "api-hot-brew.firebaseapp.com",
   databaseURL: "https://api-hot-brew.firebaseio.com",

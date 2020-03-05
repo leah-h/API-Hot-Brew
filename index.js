@@ -1,8 +1,19 @@
 // Firebase Firestore database
 // Initialize on cloud functions
-import firebase from './firebase/firebase.utils';
-
+  const firebaseConfig = {
+  apiKey: "AIzaSyDI53lx0xAPoCOsRSjO2Q_CRGk2Jm0kXiM",
+  authDomain: "api-hot-brew.firebaseapp.com",
+  databaseURL: "https://api-hot-brew.firebaseio.com",
+  projectId: "api-hot-brew",
+  storageBucket: "api-hot-brew.appspot.com",
+  messagingSenderId: "1090628766284",
+  appId: "1:1090628766284:web:32d3dff705b9a5ff80c2e9",
+  measurementId: "G-4VXFBV4GY7"
+  };
+ 
 firebase.initializeApp(firebaseConfig);
+
+
 
 const admin = require('firebase-admin');
 
