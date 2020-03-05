@@ -1,20 +1,5 @@
 // Firebase Firestore database
 // Initialize on cloud functions
-  const firebaseConfig = {
-  apiKey: "AIzaSyDI53lx0xAPoCOsRSjO2Q_CRGk2Jm0kXiM",
-  authDomain: "api-hot-brew.firebaseapp.com",
-  databaseURL: "https://api-hot-brew.firebaseio.com",
-  projectId: "api-hot-brew",
-  storageBucket: "api-hot-brew.appspot.com",
-  messagingSenderId: "1090628766284",
-  appId: "1:1090628766284:web:32d3dff705b9a5ff80c2e9",
-  measurementId: "G-4VXFBV4GY7"
-  };
- 
-firebase.initializeApp(firebaseConfig);
-
-
-
 const admin = require('firebase-admin');
 
 let serviceAccount = './.env';
@@ -280,10 +265,10 @@ app.get('/api/products/:id', async (req, res) => {
      
     await db.collection('reviews').doc().set(data)
       .then(() => {
-        res.status(200).send('Item review sucessfully submitted to db.');
+        res.send('Item review sucessfully submitted to db.');
       })
       .catch(error => {
-        consherokole.log(error);
+        console.log(error);
       })
   })  
 
@@ -318,12 +303,15 @@ app.get('/api/orders', async (req, res) => {
         });
   
       })
+      res.send(orders); 
+    } else {
+      res.send('item NOT added to db');
     }
-    res.send(orders); 
+     
 })
 
 // Get orders by user
-app.get('/api/orders/userId', async (req, res) => {
+app.get('/api/orders/:userId', async (req, res) => {
   let userId = req.params.userId;
   let ordersRefByUser = db.collection('orders').where('userId', '==', userId);
   let ordersByUser = [];
@@ -334,10 +322,9 @@ app.get('/api/orders/userId', async (req, res) => {
           productId: doc.id,
           ...doc.data()
         });
-      })
-    }
-    res.send(ordersByUser);
-  
+      })  
+      res.send(ordersByUser);
+    }   
 })
 
 
