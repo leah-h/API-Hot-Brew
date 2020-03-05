@@ -1,5 +1,8 @@
 // Firebase Firestore database
 // Initialize on cloud functions
+import firebase from './firebase/firebase.utils';
+
+firebase.initializeApp(firebaseConfig);
 
 const admin = require('firebase-admin');
 
