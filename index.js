@@ -269,7 +269,7 @@ app.get('/api/products/:id', async (req, res) => {
         res.status(200).send('Item review sucessfully submitted to db.');
       })
       .catch(error => {
-        console.log(error);
+        consherokole.log(error);
       })
   })  
 
