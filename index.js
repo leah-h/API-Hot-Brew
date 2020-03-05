@@ -23,9 +23,9 @@ app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
 
-app.get('*', function (req, res) {
-  res.send('Hello World 123...')
-})
+// app.get('/', function (req, res) {
+//   res.send('Hello World 123...')
+// })
 
 app.get('/api/users', async (req, res) => {
 
