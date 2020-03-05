@@ -2,12 +2,12 @@
 // Initialize on cloud functions
 const admin = require('firebase-admin');
 
-// let serviceAccount = './.env';
+let serviceAccount = './.env';
 
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount)
-// });
-admin.initializeApp();
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
+
 
 let db = admin.firestore();
 
@@ -39,8 +39,8 @@ app.get('/api/users', async (req, res) => {
     allUsers.forEach((doc) => {
       users.push(doc.data());
     })
+    res.send(users);
   }
-  res.end(users);
   
 })
 
@@ -56,6 +56,7 @@ app.get('/api/users/:id', async (req, res) => {
   .catch(err => {
     console.log('Error getting documents', err);
   });
+  
 })
 
 // Update user
