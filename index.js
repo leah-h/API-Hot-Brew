@@ -16,17 +16,19 @@ const bodyParser = require('body-parser')
 require('dotenv').config()
 const firebase = require('firebase');
 const cors = require('cors')
+const path = require('path')
 const app = express()
 
 app.use(cors())
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static('public'))
+app.use(express.static(__dirname + 'public'));
 
-// app.get('/', function (req, res) {
-//   res.send('Hello World 123...')
-// })
+
+app.get('/', function (req, res) {
+  res.send('Hello World 123...')
+})
 
 app.get('/api/users', async (req, res) => {
 
@@ -38,7 +40,7 @@ app.get('/api/users', async (req, res) => {
       users.push(doc.data());
     })
   }
-  res.send(users);
+  res.end(users);
   
 })
 
