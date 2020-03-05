@@ -30,7 +30,7 @@ app.get('/', function (req, res) {
   res.send('Hello World 123...')
 })
 
-app.get('/users', async (req, res) => {
+app.get('/api/users', async (req, res) => {
 
   let usersRef = db.collection('users');
   let users = [];
@@ -40,7 +40,7 @@ app.get('/users', async (req, res) => {
       users.push(doc.data());
     })
   }
-  res.send(users);
+  res.end(users);
   
 })
 
