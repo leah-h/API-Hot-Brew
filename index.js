@@ -8,7 +8,12 @@ const admin = require('firebase-admin');
 //   credential: admin.credential.cert(serviceAccount)
 // });
 
-admin.initializeApp();
+admin.initializeApp({
+   credential: admin.credential.applicationDefault(),
+  databaseURL: 'https://api-hot-brew.firebaseio.com'
+}
+
+);
 
 let db = admin.firestore();
 
