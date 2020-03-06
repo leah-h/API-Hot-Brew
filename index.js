@@ -2,12 +2,18 @@
 // Initialize on cloud functions
 var admin = require("firebase-admin");
 
-var serviceAccount = require("./firebase/serviceAccount.json");
+const firebaseConfig = {
+  apiKey: "AIzaSyDI53lx0xAPoCOsRSjO2Q_CRGk2Jm0kXiM",
+  authDomain: "api-hot-brew.firebaseapp.com",
+  databaseURL: "https://api-hot-brew.firebaseio.com",
+  projectId: "api-hot-brew",
+  storageBucket: "api-hot-brew.appspot.com",
+  messagingSenderId: "1090628766284",
+  appId: "1:1090628766284:web:32d3dff705b9a5ff80c2e9",
+  measurementId: "G-4VXFBV4GY7"
+};
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://api-hot-brew.firebaseio.com"
-});
+admin.initializeApp(firebaseConfig);
 
 let db = admin.firestore();
 
