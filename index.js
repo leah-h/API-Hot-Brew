@@ -2,7 +2,7 @@
 // Initialize on cloud functions
 var admin = require("firebase-admin");
 
-var serviceAccount = require("/Users/Documents/webdev/firebase/api-hot-brew-firebase-adminsdk-jm6sf-cca389ec21.json");
+var serviceAccount = require("/Users/Leahs-Macbook/Documents/webdev/firebase/api-hot-brew-firebase-adminsdk-jm6sf-cca389ec21.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
