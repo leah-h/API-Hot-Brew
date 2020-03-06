@@ -159,28 +159,7 @@ app.get('/api/products/:id', async (req, res) => {
         res.status(404).send('item NOT added to db');
       })
   })
-
-  //GET products by category
-  app.get('/api/products/category/:category', async (req, res) => {
-
-    let category = req.params.category;
-  
-    let itemsByCategory = [];
-  
-    await db.collection('products').where('category', '==', category).get()
-      .then(snapshot => {
-        snapshot.forEach(doc => {
-          itemsByCategory.push(doc.data())
-        })
-        res.send(itemsByCategory);
-      })
-
-      .catch(err => {
-        console.log('Error getting documents', err);
-      });
-
-  })
-
+ 
   //DELETE product by id
   app.delete('/api/products/delete/:id', async (req, res) => {
     
