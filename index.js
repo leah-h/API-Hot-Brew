@@ -1,9 +1,8 @@
 // Firebase Firestore database
 // Initialize on cloud functions
-require('dotenv').config();
 var admin = require("firebase-admin");
 
-var serviceAccount = require(`${process.env.FIREBASE_KEY}`);
+var serviceAccount = require('./firebase/serviceAccount.json');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
