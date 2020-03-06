@@ -1,19 +1,13 @@
 // Firebase Firestore database
 // Initialize on cloud functions
-const admin = require('firebase-admin');
+var admin = require("firebase-admin");
 
-// let serviceAccount = './.env';
-
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount)
-// });
+var serviceAccount = require("./.env");
 
 admin.initializeApp({
-   credential: admin.credential.applicationDefault(),
-  databaseURL: 'https://api-hot-brew.firebaseio.com'
-}
-
-);
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://api-hot-brew.firebaseio.com"
+});
 
 let db = admin.firestore();
 
