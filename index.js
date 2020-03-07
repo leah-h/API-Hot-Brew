@@ -23,12 +23,12 @@ app.use(cors())
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.json());
+// app.use(express.json())
 app.use(express.static('public'));
 
 
 app.get('/', function (req, res) {
-  res.send('Hello World 123...')
+  res.sendFile(path.join(__dirname + '/public/index.html'));
 })
 
 app.get('/api/users', async (req, res) => {
@@ -190,7 +190,8 @@ app.get('/api/products/:id', async (req, res) => {
       'product_id': req.body.product_id,
       'size': req.body.size
     }
-     
+
+    console.log(data);
     await db.collection('products').doc(id).update(data)
       .then(() => {
         res.status(200).send('Item sucessfully updated');
