@@ -176,32 +176,21 @@ app.get('/api/products/:id', async (req, res) => {
   // Update an item by id
   // handle item.key must not be empty, handle on FE if key is not empty, 
   // send previous values as update values
-  app.put('/api/products/update/:id', async (req, res) => {
-
-    let id = req.params.id;
-    let data = {
-      'category': req.body.category,
-      'description': req.body.description,
-      'flavorProfile': req.body.flavorProfile,
-      'imageUrl': req.body.imageUrl,
-      'productName': req.body.productName,
-      'type': req.body.type,
-      'price': req.body.price,
-      'product_id': req.body.product_id,
-      'size': req.body.size
-    }
-
-    console.log(data);
-    await db.collection('products').doc(id).update(data)
+app.put('/api/products/update/:id', async (req, res) => {
+  let id = req.params.id;
+  console.log(req.body.data)
+  await db.collection('products').doc(id).update(req.body.data)
       .then(() => {
-        res.status(200).send('Item sucessfully updated');
+        res.status(200).send('Item successfully updated');
       })
       .catch(error => {
         console.log(error);
       })
-  })
+})
 
-  // Get all reviews
+
+
+// Get all reviews
   app.get('/api/reviews', async (req, res) => {
     let reviewsRef = db.collection('reviews');
     let reviews = [];
