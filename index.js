@@ -116,7 +116,6 @@ app.get('/api/products/category/:category', async (req, res) => {
     .catch(err => {
       console.log('Error getting documents', err);
     });
-
 })
 
 // Get an item from db
@@ -133,7 +132,6 @@ app.get('/api/products/:id', async (req, res) => {
         .catch(err => {
           console.log('Error getting documents', err);
         });
-  
     })
 
 
@@ -168,13 +166,11 @@ app.get('/api/products/:id', async (req, res) => {
     
     await db.collection('products').doc(id).delete()
       .then(() => {
-      
         res.status(200).send('Item sucessfully deleted.');
       })
       .catch(err => {
         console.log('Error deleting document', err);
-      });
-    
+      });  
   })
   
   // Update an item by id
@@ -215,7 +211,6 @@ app.get('/api/products/:id', async (req, res) => {
           // productId: doc.id,
           ...doc.data()
         });
-  
       })
     }
     res.send(reviews);
@@ -286,7 +281,6 @@ app.get('/api/orders', async (req, res) => {
         orders.push({
           ...doc.data()
         });
-  
       })
       res.send(orders); 
     } else {
@@ -312,9 +306,5 @@ app.get('/api/orders/:userId', async (req, res) => {
     }   
 })
 
-
-
-
- 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Listening on port ${3001}`));
