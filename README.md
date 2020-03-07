@@ -1,4 +1,4 @@
-#Hot Brew API
+# Hot Brew API
 
 #### About this project
 This project serves as the back-end server for a REACT e-commerce application which can be found 
@@ -18,7 +18,7 @@ then
 for the required project dependencies.
 
 
-####How to use
+#### How to use
 Start the server by entering the command in terminal:
 
 ```$ npm start```
@@ -60,11 +60,11 @@ You should then get the following response from the server:
 
 See index.js for all other available routes. 
 
-####Technologies/Frameworks Used
+#### Technologies/Frameworks Used
 - Firebase (Database)
 - Express
 
-####Contributors
+#### Contributors
 - [Leah Harrichand](https://github.com/leah-h)
 - [Christina Jones](https://github.com/cmejones)
 
